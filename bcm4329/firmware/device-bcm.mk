@@ -13,30 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-LOCAL_PATH := $(call my-dir)
 
 ########################
 
-include $(CLEAR_VARS)
-LOCAL_MODULE := fw_bcm4329.bin
-LOCAL_MODULE_CLASS := ETC
-#LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/firmware
-LOCAL_MODULE_PATH := $(TARGET_OUT)/vendor/firmware
 ifeq ($(strip $(WIFI_BAND)),802_11_ABG)
-LOCAL_SRC_FILES := fw_bcm4329_abg.bin
+BCM_FW_SRC_FILE_STA := fw_bcm4329_abg.bin
 else
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
+BCM_FW_SRC_FILE_STA := fw_bcm4329.bin
 endif
-include $(BUILD_PREBUILT)
+BCM_FW_SRC_FILE_AP  := fw_bcm4329_apsta.bin
 
-########################
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := fw_bcm4329_apsta.bin
-LOCAL_MODULE_CLASS := ETC
-#LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/firmware
-LOCAL_MODULE_PATH := $(TARGET_OUT)/vendor/firmware
-LOCAL_SRC_FILES := $(LOCAL_MODULE)
-include $(BUILD_PREBUILT)
-
+PRODUCT_COPY_FILES += \
+    hardware/broadcom/wlan-legacy/bcm4329/firmware/$(BCM_FW_SRC_FILE_STA):system/vendor/firmware/fw_bcm4329.bin \
+    hardware/broadcom/wlan-legacy/bcm4329/firmware/$(BCM_FW_SRC_FILE_AP):system/vendor/firmware/fw_bcm4329_apsta.bin
 ########################
